@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     const userExists = await User.findOne({ email });
 
@@ -15,6 +15,7 @@ const registerUser = asyncHandler(async (req, res) => {
         name,
         email,
         password,
+        role,
     });
 
     if (user) {
@@ -22,6 +23,7 @@ const registerUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            role: user.role,
         });
     } else {
         res.status(400);
@@ -29,6 +31,25 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 });
 
+const login = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (user.password == password) {
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+        });
+    } else {
+        res.status(401);
+        throw new Error('Invalid email or password');
+    }
+});
+
 module.exports = {
     registerUser,
+    login,
 };

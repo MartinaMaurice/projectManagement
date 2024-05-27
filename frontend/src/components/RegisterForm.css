@@ -1,0 +1,118 @@
+.register-container {
+  max-width: 500px;
+  padding: 20px;
+  background: #333;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.register-container h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.register-container p {
+  text-align: center;
+}
+
+.register-container a {
+  color: #4452FE;
+  text-decoration: none;
+
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #333;
+  color: white;
+
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.form-group input::placeholder {
+  color: white;
+}
+.form-group label input {
+  margin-right: 10px;
+  color: white;
+}
+
+.role-options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.role-option1,
+.role-option2 {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.role-option input {
+  display: none;
+}
+
+.role-option label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.role-option label::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-right: 10px;
+  background-color: #444;
+  transition: background-color 0.3s;
+}
+
+.role-option input:checked + label::before {
+  background-color: #4452FE;
+}
+
+.role-option.active {
+  background-color: #4452FE;
+  color: white;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #4452FE;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
