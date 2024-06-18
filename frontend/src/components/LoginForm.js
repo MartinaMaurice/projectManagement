@@ -24,6 +24,13 @@ const LoginForm = () => {
                 password: formData.password,
             });
             console.log('User logged in:', response.data);
+            // Save the token to localStorage
+            console.log("e", response.data.token);
+            localStorage.setItem('token', response.data.token);
+            console.log(localStorage.getItem('token'))
+            localStorage.setItem('userRole', response.data.role);
+            console.log(localStorage.getItem('userRole'))
+            window.location.href = '/home';
         } catch (error) {
             console.error('Error logging in user:', error);
         }
