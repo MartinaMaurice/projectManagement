@@ -1,0 +1,191 @@
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+}
+
+.calendar-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Prevent overflow */
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #1e1e1e;
+    border-bottom: 1px solid #444;
+    flex-shrink: 0; /* Prevent navbar from shrinking */
+    margin-bottom: 5px;
+}
+
+.nav-logo {
+    font-size: 1.5rem;
+    color: white; /* Set the navbar text color to white */
+    text-decoration: none;
+}
+
+.nav-links a {
+    color: #ffffff;
+    margin-left: 1rem;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.calendar-container {
+    flex: 1;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 90px); /* Adjust the height to fit within the viewport */
+    width: calc(100vw - 15px); /* Adjust the width to fit within the viewport */
+    overflow: hidden; /* Prevent overflow */
+}
+
+.rbc-calendar {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border: none;
+    flex: 1;
+    min-width: 0; /* Prevent overflow */
+    min-height: 0; /* Prevent overflow */
+}
+
+.rbc-toolbar {
+    background-color: #1e1e1e;
+    border-bottom: 1px solid #444;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between; /* Space between elements */
+    align-items: center; /* Align items vertically */
+}
+
+.rbc-toolbar-label {
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.rbc-btn-group {
+    display: flex;
+    gap: 10px; /* Add space between buttons */
+}
+
+.rbc-btn-group button {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
+.rbc-btn-group button:hover {
+    background-color: #444;
+}
+
+.rbc-btn-group button:focus {
+    background-color: #444;
+    color: #ffffff;
+    outline: none;
+}
+
+.rbc-month-view, .rbc-time-view {
+    border-top: 1px solid #444;
+}
+
+.rbc-header {
+    background-color: #1e1e1e;
+    border-bottom: 1px solid #444;
+    color: #ffffff;
+}
+
+.rbc-today {
+    background-color: #333333;
+}
+
+.rbc-off-range-bg {
+    background-color: #333333;
+}
+
+.rbc-event {
+    background-color: #007bff;
+    border-radius: 5px;
+    padding: 2px 5px;
+    color: #ffffff;
+}
+
+.rbc-event:hover {
+    background-color: #0056b3;
+}
+
+.rbc-selected {
+    background-color: #0056b3 !important;
+}
+
+.rbc-timeslot-group {
+    border-bottom: 1px solid #444;
+}
+
+.rbc-time-content {
+    border-top: 1px solid #444;
+}
+
+.rbc-day-bg + .rbc-day-bg {
+    border-left: 1px solid #444;
+}
+
+/* Custom styles for the agenda view */
+.rbc-agenda-view table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 15px; /* Add space between rows */
+}
+
+.rbc-agenda-view th, .rbc-agenda-view td {
+    padding: 15px; /* Add padding to table cells */
+    border: 1px solid #444;
+    text-align: left;
+}
+
+.rbc-agenda-view th {
+    color: #ffffff;
+}
+
+.rbc-agenda-view td {
+    color: #ffffff;
+}
+
+.rbc-agenda-view .rbc-event {
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 2px 5px;
+}
+
+.rbc-agenda-view .rbc-event:hover {
+    background-color: #0056b3;
+}

@@ -24,6 +24,7 @@ const LoginForm = () => {
                 password: formData.password,
             });
             console.log('User logged in:', response.data);
+            localStorage.setItem('userId', response.data._id); // Store user ID in localStorage
             // Save the token to localStorage
             console.log("e", response.data.token);
             localStorage.setItem('token', response.data.token);

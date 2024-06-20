@@ -1,0 +1,121 @@
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+}
+
+.approval-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #1e1e1e;
+    border-bottom: 1px solid #444;
+    margin-bottom: 20px;
+}
+
+.nav-logo {
+    font-size: 1.5rem;
+    color: white; /* Set the navbar text color to white */
+    text-decoration: none;
+}
+
+.nav-links a {
+    color: #ffffff;
+    margin-left: 1rem;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+h2 {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.exam-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.exam-item {
+    background-color: #1e1e1e;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.exam-details {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.exam-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.exam-description {
+    color: #aaaaaa;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.cancel-button, .approve-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.cancel-button:hover {
+    background-color: #c82333;
+}
+
+.approve-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.approve-button:hover {
+    background-color: #0056b3;
+}

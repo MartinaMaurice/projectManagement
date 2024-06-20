@@ -7,7 +7,8 @@ const createNotification = asyncHandler(async (req, res) => {
     const notification = new Notification({
         title,
         message,
-        time
+        time: new Date().toLocaleTimeString(), // Set the current time only
+
     });
 
     const createdNotification = await notification.save();

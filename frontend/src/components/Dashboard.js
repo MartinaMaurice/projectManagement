@@ -5,6 +5,7 @@ import PieChart from './PieChart';
 
 const Dashboard = () => {
     const [notifications, setNotifications] = useState([]);
+    const [userRole, setUserRole] = useState(''); // Add state for user role
     const [metrics, setMetrics] = useState({
         totalExamSessions: 0,
         availableSlots: 0,
@@ -20,7 +21,8 @@ const Dashboard = () => {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
-                setNotifications(data.notifications);
+                const sortedNotifications = data.notifications.sort((a, b) => new Date(b.time) - new Date(a.time));
+                setNotifications(sortedNotifications);
             } catch (error) {
                 console.error('Error fetching notifications:', error);
             }
@@ -38,9 +40,30 @@ const Dashboard = () => {
                 console.error('Error fetching metrics:', error);
             }
         };
+        const fetchUserRole = async () => {
+            // Assuming there's an endpoint to get the current user's role
+            try {
+                const response = await fetch('http://localhost:5000/examsAdmin/user-role', { // Ensure the correct URL
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                let role = localStorage.getItem('userRole');
+                console.log(localStorage.getItem('userRole'));
+                setUserRole(role);
+            } catch (error) {
+                console.error('Error fetching user role:', error);
+                setUserRole(''); // Set userRole to an empty string in case of an error
+            }
+        };
 
         fetchNotifications();
         fetchMetrics();
+        fetchUserRole();
     }, []); // Empty dependency array ensures useEffect runs only once
 
     return (
@@ -52,7 +75,10 @@ const Dashboard = () => {
                 <div className="nav-links">
                     <Link to="/calendar">Calendar</Link>
                     <Link to="/exam-sessions">Exam Sessions</Link>
-                    <Link to="/profile">Profile</Link>
+                    {/* <Link to="/profile">Profile</Link> */}
+                    {userRole === 'admin' && (
+                        <Link to="/approval">Exams to be approved</Link>
+                    )}
                 </div>
             </nav>
             <div className="main-content">

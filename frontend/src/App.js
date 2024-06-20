@@ -7,12 +7,16 @@ import './App.css';
 import Dashboard from './components/Dashboard';
 import Exams from './components/Exams';
 import AddCourse from './components/AddCourse';
+import Approval from './components/Approval';
+import CalendarPage from './components/Calendar';
 
 function App() {
   return (
     <Router>
       <div className="App" style={{ background: '#000', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Routes>
+          <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/approval" element={<Approval />} />
           <Route path="/add-course" element={<AddCourse />} />
           <Route path="/exam-sessions" element={<Exams />} />
           <Route path="/home" element={<Dashboard />} />

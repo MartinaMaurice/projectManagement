@@ -9,8 +9,7 @@ const AddCourse = () => {
     const handleAddCourse = async () => {
         console.log('Submitting new course:', newCourse); // Debugging log
         try {
-            const response = await fetch('http://localhost:5000/exams', {
-
+            const response = await fetch('http://localhost:5000/examsAdmin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,7 +21,10 @@ const AddCourse = () => {
             }
             const result = await response.json();
             console.log(result); // Log the response from the server
-            // navigate('/exam-sessions');
+
+            if (window.confirm('Waiting for admin to approve. Click OK to go to exam sessions.')) {
+                navigate('/exam-sessions');
+            }
         } catch (error) {
             console.error('Error adding course:', error);
         }

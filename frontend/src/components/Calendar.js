@@ -1,29 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './Exams.css';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import './Calendar.css';
+import { useNavigate, Link } from 'react-router-dom';
 
-const Exams = () => {
-    const [exams, setExams] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [userRole, setUserRole] = useState(''); // Assume we have a method to get the user role
+
+const localizer = momentLocalizer(moment);
+
+const CalendarPage = () => {
+    const [events, setEvents] = useState([]);
     const [reservedExams, setReservedExams] = useState([]);
+    const [userRole, setUserRole] = useState(''); // Assume we have a method to get the user role
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchExams = async () => {
             try {
-                const response = await fetch('http://localhost:5000/examsAdmin/approved'); // Ensure the correct URL
+                const response = await fetch('http://localhost:5000/examsAdmin/approved');
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
-                setExams(Array.isArray(data) ? data : []); // Ensure data is an array
+                const events = data.map(exam => ({
+                    id: exam._id,
+                    title: exam.title,
+                    start: new Date(exam.date),
+                    end: new Date(new Date(exam.date).setHours(new Date(exam.date).getHours() + 1)), // Assuming each exam lasts 1 hour
+                    description: exam.description,
+                    location: exam.location,
+                    time: exam.time
+                }));
+                setEvents(events);
             } catch (error) {
                 console.error('Error fetching exams:', error);
-                setExams([]); // Set exams to an empty array in case of an error
             }
         };
-
         const fetchUserRole = async () => {
             // Assuming there's an endpoint to get the current user's role
             try {
@@ -68,13 +80,16 @@ const Exams = () => {
         fetchExams();
         fetchUserRole();
         fetchReservedExams();
-    }, []); // Empty dependency array ensures useEffect runs only once
+    }, []);
 
-    const handleReserve = async (exam) => {
+    const handleSelectEvent = async (event) => {
+        if (isExamReserved(event.id)) {
+            alert('This exam is already reserved.');
+            return;
+        }
+
         try {
             const userId = localStorage.getItem('userId'); // Assuming user ID is stored in localStorage
-            if (!userId) throw new Error('User ID is not available');
-
             const response = await fetch(`http://localhost:5000/users/${userId}/addExam`, {
                 method: 'POST',
                 headers: {
@@ -82,12 +97,12 @@ const Exams = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`, // Assuming token is stored in localStorage
                 },
                 body: JSON.stringify({
-                    id: exam._id,
-                    title: exam.title,
-                    date: exam.date,
-                    time: exam.time,
-                    description: exam.description,
-                    location: exam.location
+                    id: event.id,
+                    title: event.title,
+                    date: event.start,
+                    time: event.time,
+                    description: event.description,
+                    location: event.location
                 }),
             });
             if (!response.ok) {
@@ -95,23 +110,34 @@ const Exams = () => {
             }
             const data = await response.json();
             console.log('Exam added to user:', data);
-            alert('Exam reserved!');
-            setReservedExams([...reservedExams, { _id: exam._id }]); // Add exam to reservedExams state
+            alert('Exam added to your schedule!');
+            setReservedExams([...reservedExams, { id: event.id }]); // Add event ID to reservedExams state
         } catch (error) {
-            console.error('Error reserving exam:', error);
+            console.error('Error adding exam to user:', error);
         }
     };
 
-    const filteredExams = exams.filter(exam =>
-        exam.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
     const isExamReserved = (examId) => {
-        return reservedExams.some(reservedExam => reservedExam._id === examId);
+        return reservedExams.some(reservedExam => reservedExam.id === examId);
+    };
+
+    const eventStyleGetter = (event) => {
+        const style = {
+            backgroundColor: isExamReserved(event.id) ? 'gray' : '#007bff',
+            borderRadius: '5px',
+            opacity: 0.8,
+            color: 'white',
+            border: '0px',
+            display: 'block',
+            cursor: isExamReserved(event.id) ? 'not-allowed' : 'pointer'
+        };
+        return {
+            style: style
+        };
     };
 
     return (
-        <div className="dashboard">
+        <div className="calendar-page">
             <nav className="navbar">
                 <Link to="/home" className="nav-logo">
                     Home Page
@@ -124,41 +150,19 @@ const Exams = () => {
                     )}
                 </div>
             </nav>
-
-            <h2>Exams</h2>
-            <div className="search-and-add">
-                <input
-                    type="text"
-                    placeholder="Search Here..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="search-bar"
+            <div className="calendar-container">
+                <Calendar
+                    localizer={localizer}
+                    events={events}
+                    startAccessor="start"
+                    endAccessor="end"
+                    style={{ flex: 1 }}
+                    onSelectEvent={handleSelectEvent}
+                    eventPropGetter={eventStyleGetter}
                 />
-                {userRole === 'trainingCenter' && (
-                    <button className="add-course-button" onClick={() => navigate('/add-course')}>
-                        Add New Exam
-                    </button>
-                )}
-            </div>
-            <div className="exam-grid">
-                {filteredExams.map((exam) => (
-                    <div key={exam._id} className="exam-card">
-                        <h3>{exam.title}</h3>
-                        <p>{exam.description}</p>
-                        {userRole === 'trainee' && (
-                            <button
-                                className={`reserve-button ${isExamReserved(exam._id) ? 'reserved' : ''}`}
-                                onClick={() => handleReserve(exam)}
-                                disabled={isExamReserved(exam._id)}
-                            >
-                                {isExamReserved(exam._id) ? 'Reserved' : 'Reserve'}
-                            </button>
-                        )}
-                    </div>
-                ))}
             </div>
         </div>
     );
 };
 
-export default Exams;
+export default CalendarPage;
