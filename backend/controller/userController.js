@@ -112,10 +112,20 @@ const getUserRole = asyncHandler(async (req, res) => {
     }
 });
 
+const getSuccessful = asyncHandler(async (req, res) => {
+    const successfulUsers = await User.find({ success: true });
+    if (successfulUsers) {
+        res.json(successfulUsers);
+    } else {
+        res.status(404).json({ message: 'No successful users found' });
+    }
+});
+
 module.exports = {
     registerUser,
     login,
     getUserRole,
     addExamToUser,
     getReservedExams,
+    getSuccessful,
 };

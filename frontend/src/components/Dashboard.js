@@ -79,6 +79,9 @@ const Dashboard = () => {
                     {userRole === 'admin' && (
                         <Link to="/approval">Exams to be approved</Link>
                     )}
+                    {userRole === 'small admin' && (
+                        <Link to='/SucceededTrainees'>Succeeded Trainees</Link>
+                    )}
                 </div>
             </nav>
             <div className="main-content">

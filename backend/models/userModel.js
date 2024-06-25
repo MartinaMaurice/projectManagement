@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema(
         role: {
             type: String,
             required: true,
-            enum: ['trainee', 'trainingCenter', 'admin'],
+            enum: ['trainee', 'trainingCenter', 'admin', 'small admin'],
             default: 'trainee',
         },
         exams: [
@@ -31,6 +31,11 @@ const userSchema = mongoose.Schema(
                 location: { type: String, required: true },
             }
         ],
+        success: {
+            type: Boolean,
+            required: false,
+            default: false,
+        }
     },
     {
         timestamps: true,

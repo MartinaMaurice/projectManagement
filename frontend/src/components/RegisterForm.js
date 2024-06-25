@@ -89,7 +89,7 @@ const RegisterForm = () => {
                         required
                     />
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                     <input
                         type="number"
                         name="age"
@@ -98,7 +98,7 @@ const RegisterForm = () => {
                         onChange={handleChange}
                         required
                     />
-                </div>
+                </div> */}
                 <div className="role-options">
                     <div
                         className={`role-option1 ${formData.role === 'trainee' ? 'active' : ''}`}
